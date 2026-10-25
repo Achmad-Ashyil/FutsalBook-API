@@ -1,0 +1,60 @@
+[project]
+name = "futsalbook-api"
+version = "0.1.0"
+description = "REST API modular untuk pemesanan lapangan futsal dengan FastAPI dan PostgreSQL."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = { text = "MIT" }
+authors = [{ name = "Tim FutsalBook" }]
+dependencies = [
+    "fastapi>=0.115,<1.0",
+    "uvicorn[standard]>=0.34,<1.0",
+    "sqlalchemy>=2.0.40,<3.0",
+    "psycopg[binary]>=3.2,<4.0",
+    "pydantic-settings>=2.8,<3.0",
+    "email-validator>=2.2,<3.0",
+    "alembic>=1.15,<2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<10.0",
+    "pytest-cov>=6.0,<8.0",
+    "ruff>=0.11,<1.0",
+    "httpx2>=2.16.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/futsalbook"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+pythonpath = ["src"]
+
+[tool.coverage.run]
+branch = true
+source = ["futsalbook"]
+omit = ["src/futsalbook/cli.py", "src/futsalbook/inti/database.py", "src/futsalbook/main.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 75
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B"]
+ignore = ["B008", "E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

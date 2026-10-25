@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+
+# Lingkungan virtual dan konfigurasi lokal
+.venv/
+.env
+.env.*
+!.env.example
+
+# IDE dan OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Data lokal / hasil build
+*.sqlite3
+*.db
+dist/
+build/

@@ -1,0 +1,33 @@
+name: Pemeriksaan Kualitas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  uji-dan-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositori
+        uses: actions/checkout@v4
+      - name: Siapkan Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Siapkan uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Buat lockfile jika belum tersedia
+        run: |
+          if [ ! -f uv.lock ]; then
+            uv lock
+          fi
+      - name: Pasang dependensi terkunci
+        run: uv sync --locked --all-groups
+      - name: Periksa gaya kode
+        run: uv run ruff check .
+      - name: Jalankan pengujian dan cakupan
+        run: uv run pytest --cov=futsalbook --cov-report=term-missing --cov-fail-under=75

@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: futsalbook-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: futsalbook
+      POSTGRES_USER: futsalbook
+      POSTGRES_PASSWORD: futsalbook
+    ports:
+      - "5433:5432"
+    volumes:
+      - futsalbook_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U futsalbook -d futsalbook"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  futsalbook_data:
